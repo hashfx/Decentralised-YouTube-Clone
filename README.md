@@ -1,4 +1,4 @@
-<--
+<!--
 ## Fully decentralized application published on IPFS
 
 ## 🔧 Project Diagram:
