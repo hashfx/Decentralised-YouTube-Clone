@@ -1,8 +1,8 @@
 pragma solidity ^0.5.0;
 
-contract DVideo {
+contract Dvdo {
   uint public videoCount = 0;
-  string public name = "DVideo";
+  string public name = "Dvdo";
   //Create id=>struct mapping
 
   //Create Struct

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DVideo from '../abis/DVideo.json'
+import Dvdo from '../abis/Dvdo.json'
 import Navbar from './Navbar'
 import Main from './Main'
 import Web3 from 'web3';
