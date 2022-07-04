@@ -48,7 +48,7 @@ class App extends Component {
       this.setState({ dvideo })  // set dvideo contract to state
 
       // get videos count
-      const videosCount = await dvideo.methods.VideoCount().call()
+      const videosCount = await dvideo.methods.videoCount().call()
       this.setState({ videosCount })
 
       // load videos, sort by newest first
@@ -75,13 +75,14 @@ class App extends Component {
     //Set latest video and it's title to view as default 
     //Set loading state to false
 
-    //If network data doesn't exisits, log error
+    //If network data doesn't exists, log error
   }
 
   //Get video
   captureFile = event => {
 
   }
+
 
   //Upload video
   uploadVideo = title => {
@@ -101,7 +102,7 @@ class App extends Component {
       account: '',
       dvideo: null,
       videos: [],
-      loading: true,
+      // loading: true,
       currentHash: null,
       currentTitle: null
     }
