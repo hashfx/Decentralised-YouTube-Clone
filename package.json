@@ -1,8 +1,8 @@
 {
   "name": "Dvdo",
   "version": "0.1.0",
-  "description": "Decentralised Video Publishing Platform",
-  "author": "hashfx",
+  "description": "Decentralized platform for video publishing",
+  "author": "Dapp University",
   "homepage": ".",
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.1.0",
