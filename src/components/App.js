@@ -31,25 +31,29 @@ class App extends Component {
 
   async loadBlockchainData() {
     const web3 = window.web3
-    //Load accounts
+    // get accounts
+    const accounts = await web3.eth.getAccounts()
+    console.log(accounts)  // current connected account
+    this.setState({ account: accounts[0] })  // set first account as main account
+
     //Add first account the the state
 
     //Get network ID
     //Get network data
     //Check if net data exists, then
-      //Assign dvideo contract to a variable
-      //Add dvideo to the state
+    //Assign dvideo contract to a variable
+    //Add dvideo to the state
 
-      //Check videoAmounts
-      //Add videAmounts to the state
+    //Check videoAmounts
+    //Add videAmounts to the state
 
-      //Iterate throught videos and add them to the state (by newest)
+    //Iterate throught videos and add them to the state (by newest)
 
 
-      //Set latest video and it's title to view as default 
-      //Set loading state to false
+    //Set latest video and it's title to view as default 
+    //Set loading state to false
 
-      //If network data doesn't exisits, log error
+    //If network data doesn't exisits, log error
   }
 
   //Get video
@@ -70,7 +74,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: false
+      loading: false,
+      account: ''  // default state
       //set states
     }
 
@@ -80,14 +85,14 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar 
-          //Account
+        <Navbar
+        account = {this.state.account}  // display connected account hash
         />
-        { this.state.loading
+        {this.state.loading
           ? <div id="loader" className="text-center mt-5"><p>Loading...</p></div>
           : <Main
-              //states&functions
-            />
+          //states&functions
+          />
         }
       </div>
     );
