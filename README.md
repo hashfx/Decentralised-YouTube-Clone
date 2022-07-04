@@ -1,8 +1,3 @@
-<!-- ## Fully decentralized application published on IPFS
-
-## 🔧 Project Diagram:
-![Project Diagram/Workflow](https://i.gyazo.com/827138d2e256cffbe00e34a15afa39e2.png) -->
-
 ## Decentralised Video Sharing Platform
 
 #### Install Software and Dependencies
@@ -65,3 +60,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 <h2 align="center">
 Thanks for Visiting the <a href="https://github.com/hashfx">Profile</a> and Repository of <a href="https://github.com/hashfx/Decentralised-YouTube-Clone/">Decentralised Video Sharing Platform</a> 😊
+
