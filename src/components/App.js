@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Dvdo from '../abis/Dvdo.json'
+import Dvdo from '../abis/Dvdo.json'  // abi file for the contract
 import Navbar from './Navbar'
 import Main from './Main'
 import Web3 from 'web3';
@@ -16,6 +16,7 @@ class App extends Component {
     await this.loadBlockchainData()
   }
 
+  // default by Ethereum
   async loadWeb3() {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum)
@@ -36,13 +37,34 @@ class App extends Component {
     console.log(accounts)  // current connected account
     this.setState({ account: accounts[0] })  // set first account as main account
 
-    //Add first account the the state
+    // get network id
+    const networkId = await web3.eth.net.getId()  // returns ID that user is connected to
+    console.log(networkId)  // returns 1 for mainnet, 3 for ropsten, 4 for rinkeby, 5 for goerli, 42 for kovan
+    const networkData = Dvdo.networks[networkId]  // get network data from abi file
 
-    //Get network ID
-    //Get network data
-    //Check if net data exists, then
-    //Assign dvideo contract to a variable
-    //Add dvideo to the state
+    // if network data exists
+    if (networkData) {
+      const dvideo = new web3.eth.Contract(Dvdo.abi, networkData.address)  // (abi, address)
+      this.setState({ dvideo })  // set dvideo contract to state
+
+      // get videos count
+      const videosCount = await dvideo.methods.VideoCount().call()
+      this.setState({ videosCount })
+
+      // load videos, sort by newest first
+      for (var i = videosCount; i >= 1; i--) {
+        const video = await dvideo.methods.videos(i).call()  // get video data
+        this.setState({ videos: [...this.state.videos, video] })  // add video to state
+      }
+
+      // see latest video with title to view as default
+      const latestVideo = await dvideo.methods.videos(videosCount).call()  // get latest video data
+      this.setState({ currentHash: latestVideo.hash, currentTitle: latestVideo.title })
+      this.setState({ loading: false })  // stop loading
+
+    } else {
+      window.alert('Contract has not been deployed to detected network.')
+    }
 
     //Check videoAmounts
     //Add videAmounts to the state
@@ -73,10 +95,15 @@ class App extends Component {
 
   constructor(props) {
     super(props)
+    // default values
     this.state = {
       loading: false,
-      account: ''  // default state
-      //set states
+      account: '',
+      dvideo: null,
+      videos: [],
+      loading: true,
+      currentHash: null,
+      currentTitle: null
     }
 
     //Bind functions
@@ -86,7 +113,7 @@ class App extends Component {
     return (
       <div>
         <Navbar
-        account = {this.state.account}  // display connected account hash
+          account={this.state.account}  // display connected account hash
         />
         {this.state.loading
           ? <div id="loader" className="text-center mt-5"><p>Loading...</p></div>
