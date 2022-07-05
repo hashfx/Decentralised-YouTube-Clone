@@ -78,20 +78,44 @@ class App extends Component {
     //If network data doesn't exists, log error
   }
 
-  //Get video
+  // convert file to buffer to be uploaded on IPFS
   captureFile = event => {
+    event.preventDefault()
+    const file = event.target.files[0]  // capture file
+    const reader = new window.FileReader()  // create reader
+    reader.readAsArrayBuffer(file)  // read file
 
+    reader.onloadend = () => {
+      this.setState({ buffer: Buffer(reader.result) })  // set buffer to file
+      console.log('buffer', this.state.buffer)  // log buffer
+    }
   }
 
 
   //Upload video
   uploadVideo = title => {
+    console.log("submitting to IPFS...")
+
+    // adding file to IPFS
+    ipfs.add(this.state.buffer, (error, result) => {
+      console.log("Result: ", result)
+      if (error) {
+        console.error(error)
+        return
+      }
+      this.setState({ loading: true })  // upload to blockchain
+      this.state.dvideo.methods.uploadVideo(result[0].hash, title).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.setState({ loading: false })  // stop loading
+      })
+    })  // (file, callback)
 
   }
 
   //Change Video
   changeVideo = (hash, title) => {
-
+    // change playing video when clicked
+    this.setState({ 'currentHash': hash })
+    this.setState({ 'currentTitle': title })
   }
 
   constructor(props) {
@@ -119,7 +143,12 @@ class App extends Component {
         {this.state.loading
           ? <div id="loader" className="text-center mt-5"><p>Loading...</p></div>
           : <Main
-          //states&functions
+            videos={this.state.videos}
+            uploadVideo={this.uploadVideo}
+            captureFile={this.captureFile}
+            changeVideo={this.changeVideo}
+            currentHash={this.state.currentHash}
+            currentTitle={this.state.currentTitle}
           />
         }
       </div>
